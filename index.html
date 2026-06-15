@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИЛЬЯ ❤ КАТЯ · 27.07.2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Manrope:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@1,300;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05060a;
+    --bg2:#0a0d16;
+    --neon:#00f0ff;
+    --neon2:#ff2e9a;
+    --neon3:#a855f7;
+    --txt:#e8ecf4;
+    --mut:#8a93a8;
+    --glass:rgba(255,255,255,.04);
+    --border:rgba(0,240,255,.18);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--txt);
+    font-family:'Manrope',sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* ===== particle canvas ===== */
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+  /* ===== scanline / grid overlay ===== */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:
+      radial-gradient(circle at 20% 20%,rgba(0,240,255,.08),transparent 40%),
+      radial-gradient(circle at 80% 70%,rgba(255,46,154,.08),transparent 40%);
+    mix-blend-mode:screen;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.4;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.15) 0,rgba(0,0,0,.15) 1px,transparent 2px,transparent 3px);
+  }
+  main,header,footer{position:relative;z-index:3}
+
+  /* ===== nav ===== */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 5vw;
+    backdrop-filter:blur(12px);
+    background:linear-gradient(180deg,rgba(5,6,10,.8),rgba(5,6,10,0));
+    transition:.4s;
+  }
+  nav.scrolled{background:rgba(5,6,10,.85);border-bottom:1px solid var(--border)}
+  .logo{
+    font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:3px;font-size:14px;
+    color:var(--neon);text-shadow:0 0 12px rgba(0,240,255,.6)
+  }
+  .nav-links{display:flex;gap:28px;font-size:13px;letter-spacing:1.5px;text-transform:uppercase}
+  .nav-links a{color:var(--mut);text-decoration:none;transition:.3s;position:relative}
+  .nav-links a:hover{color:var(--neon)}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--neon);transition:.3s;box-shadow:0 0 8px var(--neon)}
+  .nav-links a:hover::after{width:100%}
+  @media(max-width:720px){.nav-links{display:none}}
+
+  /* ===== HERO ===== */
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding:120px 20px 60px;position:relative;
+  }
+  .hero-tag{
+    font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:8px;
+    color:var(--neon);text-transform:uppercase;margin-bottom:40px;opacity:0;
+    animation:fadeUp 1s .3s forwards;
+  }
+  .hero-tag span{display:inline-block;width:30px;height:1px;background:var(--neon);vertical-align:middle;margin:0 14px;box-shadow:0 0 8px var(--neon)}
+
+  .names{
+    font-family:'Orbitron',sans-serif;font-weight:900;
+    font-size:clamp(48px,11vw,140px);line-height:.95;letter-spacing:-2px;
+    position:relative;
+  }
+  .glitch{position:relative;display:inline-block}
+  .glitch::before,.glitch::after{
+    content:attr(data-text);position:absolute;top:0;left:0;width:100%;
+    clip-path:inset(0 0 0 0);
+  }
+  .glitch::before{color:var(--neon2);animation:glitch1 3s infinite linear alternate-reverse;text-shadow:-2px 0 var(--neon2)}
+  .glitch::after{color:var(--neon);animation:glitch2 2.4s infinite linear alternate-reverse;text-shadow:2px 0 var(--neon)}
+  @keyframes glitch1{
+    0%,90%,100%{transform:translate(0);clip-path:inset(0 0 0 0)}
+    92%{transform:translate(-3px,1px);clip-path:inset(20% 0 60% 0)}
+    94%{transform:translate(2px,-1px);clip-path:inset(60% 0 10% 0)}
+    96%{transform:translate(-1px,2px);clip-path:inset(40% 0 40% 0)}
+  }
+  @keyframes glitch2{
+    0%,88%,100%{transform:translate(0);clip-path:inset(0 0 0 0)}
+    90%{transform:translate(3px,-2px);clip-path:inset(10% 0 70% 0)}
+    93%{transform:translate(-2px,1px);clip-path:inset(70% 0 5% 0)}
+    97%{transform:translate(1px,-1px);clip-path:inset(30% 0 50% 0)}
+  }
+  .amp{
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+    color:var(--neon);font-size:clamp(40px,8vw,90px);display:block;
+    text-shadow:0 0 30px rgba(0,240,255,.7);opacity:0;animation:fadeUp 1.2s .6s forwards;
+    margin:6px 0;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+  .hero-date{
+    margin-top:50px;font-family:'Orbitron',sans-serif;font-size:clamp(16px,3vw,24px);
+    letter-spacing:6px;color:var(--txt);opacity:0;animation:fadeUp 1s .9s forwards;
+  }
+  .hero-date .sep{color:var(--neon2);margin:0 12px}
+  .hero-loc{
+    margin-top:14px;font-size:13px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;
+    opacity:0;animation:fadeUp 1s 1.1s forwards;
+  }
+  .scroll-cue{
+    position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+    font-size:10px;letter-spacing:4px;color:var(--mut);text-transform:uppercase;
+    opacity:0;animation:fadeUp 1s 1.4s forwards;
+  }
+  .scroll-cue::after{content:"";display:block;width:1px;height:40px;background:linear-gradient(var(--neon),transparent);margin:14px auto 0;box-shadow:0 0 8px var(--neon);animation:scrollPulse 2s infinite}
+  @keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+  /* ===== sections generic ===== */
+  section{padding:120px 6vw;max-width:1300px;margin:0 auto}
+  .eyebrow{
+    font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:6px;
+    color:var(--neon);text-transform:uppercase;margin-bottom:18px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .eyebrow::before{content:"";width:40px;height:1px;background:var(--neon);box-shadow:0 0 8px var(--neon)}
+  .h2{
+    font-family:'Orbitron',sans-serif;font-weight:700;
+    font-size:clamp(28px,5vw,52px);letter-spacing:-1px;margin-bottom:50px;line-height:1.1;
+  }
+  .h2 em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:var(--neon2)}
+
+  /* ===== COUNTDOWN ===== */
+  .count-wrap{text-align:center}
+  .count-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:780px;margin:0 auto;
+  }
+  .count-cell{
+    background:var(--glass);border:1px solid var(--border);border-radius:14px;
+    padding:34px 10px;backdrop-filter:blur(10px);position:relative;overflow:hidden;
+    transition:.4s;
+  }
+  .count-cell::before{
+    content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(0,240,255,.08));opacity:0;transition:.4s
+  }
+  .count-cell:hover::before{opacity:1}
+  .count-cell:hover{border-color:var(--neon);transform:translateY(-4px)}
+  .count-num{
+    font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(36px,7vw,64px);
+    color:var(--neon);text-shadow:0 0 20px rgba(0,240,255,.5);line-height:1;
+  }
+  .count-label{font-size:11px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-top:14px}
+  @media(max-width:560px){.count-grid{grid-template-columns:repeat(2,1fr)}}
+
+  /* ===== TIMELINE ===== */
+  .timeline{position:relative;padding-left:30px}
+  .timeline::before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(var(--neon),var(--neon2),var(--neon3));box-shadow:0 0 12px var(--neon)}
+  .tl-item{
+    position:relative;padding:0 0 50px 40px;opacity:0;transform:translateX(-20px);
+    transition:.8s cubic-bezier(.2,.8,.2,1);
+  }
+  .tl-item.in{opacity:1;transform:none}
+  .tl-item::before{
+    content:"";position:absolute;left:-30px;top:6px;width:18px;height:18px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--neon);box-shadow:0 0 14px var(--neon);
+  }
+  .tl-time{font-family:'Orbitron',sans-serif;font-size:13px;color:var(--neon2);letter-spacing:2px;margin-bottom:6px}
+  .tl-title{font-size:20px;font-weight:700;margin-bottom:6px}
+  .tl-desc{color:var(--mut);font-size:14px;max-width:520px}
+
+  /* ===== LOCATION ===== */
+  .loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:stretch}
+  @media(max-width:860px){.loc-grid{grid-template-columns:1fr}}
+  .loc-card{
+    background:var(--glass);border:1px solid var(--border);border-radius:18px;
+    padding:40px;backdrop-filter:blur(10px);
+  }
+  .loc-card h3{font-family:'Orbitron',sans-serif;font-size:20px;margin-bottom:20px;color:var(--neon)}
+  .loc-card .row{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+  .loc-card .row:last-child{border:none}
+  .loc-card .ico{
+    width:42px;height:42px;flex-shrink:0;border-radius:10px;display:grid;place-items:center;
+    background:rgba(0,240,255,.1);border:1px solid var(--border);font-size:18px;
+  }
+  .loc-card .row strong{display:block;font-size:14px;margin-bottom:2px}
+  .loc-card .row span{color:var(--mut);font-size:13px}
+  .map-frame{
+    border-radius:18px;overflow:hidden;border:1px solid var(--border);min-height:340px;
+    position:relative;background:var(--bg2);
+  }
+  .map-frame iframe{width:100%;height:100%;min-height:340px;border:0;filter:invert(.92) hue-rotate(180deg) saturate(.8) brightness(.9)}
+  .map-btn{
+    display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:14px 26px;
+    border:1px solid var(--neon);border-radius:50px;color:var(--neon);text-decoration:none;
+    font-size:13px;letter-spacing:2px;text-transform:uppercase;transition:.3s;background:transparent;
+  }
+  .map-btn:hover{background:var(--neon);color:var(--bg);box-shadow:0 0 24px rgba(0,240,255,.5)}
+
+  /* ===== RSVP ===== */
+  .rsvp-wrap{max-width:680px;margin:0 auto}
+  .rsvp-form{
+    background:var(--glass);border:1px solid var(--border);border-radius:22px;
+    padding:44px;backdrop-filter:blur(12px);
+  }
+  .field{margin-bottom:22px}
+  .field label{display:block;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+  .field input,.field select,.field textarea{
+    width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);border-radius:10px;
+    padding:14px 16px;color:var(--txt);font-family:inherit;font-size:15px;transition:.3s;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--neon);box-shadow:0 0 0 3px rgba(0,240,255,.12)}
+  .field textarea{resize:vertical;min-height:90px}
+  .radio-row{display:flex;gap:12px;flex-wrap:wrap}
+  .radio-opt{
+    flex:1;min-width:120px;padding:14px;border:1px solid rgba(255,255,255,.1);border-radius:10px;
+    text-align:center;cursor:pointer;transition:.3s;font-size:14px;background:rgba(0,0,0,.3);
+  }
+  .radio-opt:hover{border-color:var(--neon)}
+  .radio-opt.sel{border-color:var(--neon);background:rgba(0,240,255,.1);color:var(--neon);box-shadow:0 0 16px rgba(0,240,255,.2)}
+  .radio-opt input{display:none}
+  .submit-btn{
+    width:100%;padding:18px;border:none;border-radius:12px;cursor:pointer;
+    font-family:'Orbitron',sans-serif;font-size:14px;letter-spacing:3px;text-transform:uppercase;
+    color:var(--bg);font-weight:700;position:relative;overflow:hidden;
+    background:linear-gradient(90deg,var(--neon),var(--neon2));transition:.3s;
+  }
+  .submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,240,255,.4)}
+  .submit-btn:active{transform:translateY(0)}
+  .success-msg{
+    text-align:center;padding:30px;border-radius:14px;border:1px solid var(--neon);
+    background:rgba(0,240,255,.06);display:none;
+  }
+  .success-msg.show{display:block;animation:fadeUp .6s}
+  .success-msg h3{font-family:'Orbitron',sans-serif;color:var(--neon);margin-bottom:8px}
+
+  /* ===== footer ===== */
+  footer{
+    text-align:center;padding:60px 20px 40px;border-top:1px solid var(--border);
+    margin-top:60px;
+  }
+  footer .fl{font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:4px;color:var(--neon);margin-bottom:10px}
+  footer p{color:var(--mut);font-size:12px;letter-spacing:1px}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* scrollbar */
+  ::-webkit-scrollbar{width:8px}
+  ::-webkit-scrollbar-track{background:var(--bg2)}
+  ::-webkit-scrollbar-thumb{background:var(--neon3);border-radius:4px}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<nav id="nav">
+  <div class="logo">A<span style="color:var(--neon2)">♡</span>K</div>
+  <div class="nav-links">
+    <a href="#countdown">Отсчёт</a>
+    <a href="#program">Программа</a>
+    <a href="#location">Локация</a>
+    <a href="#rsvp">RSVP</a>
+  </div>
+</nav>
+
+<main>
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-tag"><span></span>ПРИГЛАШЕНИЕ НА СВАДЬБУ<span></span></div>
+    <h1 class="names">
+      <span class="glitch" data-text="ИЛЬЯ">ИЛЬЯ</span>
+      <span class="amp">&amp;</span>
+      <span class="glitch" data-text="КАТЯ">КАТЯ</span>
+    </h1>
+    <div class="hero-date">14 <span class="sep">·</span> 09 <span class="sep">·</span> 2026</div>
+    <div class="hero-loc">Москва · Loft Hall</div>
+    <div class="scroll-cue">Прокрутить</div>
+  </header>
+
+  <!-- COUNTDOWN -->
+  <section id="countdown">
+    <div class="count-wrap reveal">
+      <div class="eyebrow">До события осталось</div>
+      <h2 class="h2">Обратный <em>отсчёт</em></h2>
+      <div class="count-grid">
+        <div class="count-cell"><div class="count-num" id="d">00</div><div class="count-label">Дней</div></div>
+        <div class="count-cell"><div class="count-num" id="h">00</div><div class="count-label">Часов</div></div>
+        <div class="count-cell"><div class="count-num" id="m">00</div><div class="count-label">Минут</div></div>
+        <div class="count-cell"><div class="count-num" id="s">00</div><div class="count-label">Секунд</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM -->
+  <section id="program">
+    <div class="reveal">
+      <div class="eyebrow">Расписание дня</div>
+      <h2 class="h2">Программа <em>торжества</em></h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal"><div class="tl-time">14:00</div><div class="tl-title">Сбор гостей</div><div class="tl-desc">Приветственный аперитив, игристое и фотосессия на фоне инсталляций.</div></div>
+      <div class="tl-item reveal"><div class="tl-time">15:00</div><div class="tl-title">Церемония</div><div class="tl-desc">Выездная регистрация под живой струнный квартет в главном зале.</div></div>
+      <div class="tl-item reveal"><div class="tl-time">16:30</div><div class="tl-title">Фуршет и поздравления</div><div class="tl-desc">Лёгкие закуски, авторские коктейли от бар-команды и тёплые слова.</div></div>
+      <div class="tl-item reveal"><div class="tl-time">18:00</div><div class="tl-title">Праздничный ужин</div><div class="tl-desc">Сет-меню от шеф-повара, тосты и первый танец молодожёнов.</div></div>
+      <div class="tl-item reveal"><div class="tl-time">21:00</div><div class="tl-title">Разрезание торта</div><div class="tl-desc">Десертная станция, кофе-корнер и свадебный торт.</div></div>
+      <div class="tl-item reveal"><div class="tl-time">22:00</div><div class="tl-title">Вечеринка до утра</div><div class="tl-desc">DJ-сет, танцпол, фаер-шоу и фуршет на вынос.</div></div>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section id="location">
+    <div class="reveal">
+      <div class="eyebrow">Где встретимся</div>
+      <h2 class="h2">Локация &amp; <em>карта</em></h2>
+    </div>
+    <div class="loc-grid">
+      <div class="loc-card reveal">
+        <h3>Loft Hall</h3>
+        <div class="row"><div class="ico">📍</div><div><strong>Адрес</strong><span>г. Москва, ул. Серпуховский Вал, 12к1</span></div></div>
+        <div class="row"><div class="ico">🕒</div><div><strong>Время</strong><span>14 сентября 2026 · 14:00 — 02:00</span></div></div>
+        <div class="row"><div class="ico">🚇</div><div><strong>Метро</strong><span>Тульская · 7 минут пешком</span></div></div>
+        <div class="row"><div class="ico">🚗</div><div><strong>Парковка</strong><span>Бесплатная, на территории лофта</span></div></div>
+        <div class="row"><div class="ico">👗</div><div><strong>Дресс-код</strong><span>Black Tie Optional · deep / jewel tones</span></div></div>
+        <a class="map-btn" href="https://yandex.ru/maps/?text=Москва%20Серпуховский%20Вал%2012" target="_blank" rel="noopener">Открыть в Яндекс.Картах →</a>
+      </div>
+      <div class="map-frame reveal">
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.6209%2C55.7300&z=14" loading="lazy" title="Карта локации"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp">
+    <div class="reveal" style="text-align:center">
+      <div class="eyebrow" style="justify-content:center">Подтверждение присутствия</div>
+      <h2 class="h2">Подтвердите <em>ваш визит</em></h2>
+    </div>
+    <div class="rsvp-wrap reveal">
+      <form class="rsvp-form" id="rsvpForm">
+        <div class="field">
+          <label>Ваше имя</label>
+          <input type="text" name="name" required placeholder="Имя и фамилия">
+        </div>
+        <div class="field">
+          <label>Контакты</label>
+          <input type="text" name="contact" required placeholder="Телефон или e-mail">
+        </div>
+        <div class="field">
+          <label>Сможете прийти?</label>
+          <div class="radio-row">
+            <label class="radio-opt sel"><input type="radio" name="attend" value="yes" checked>Да, буду! 🎉</label>
+            <label class="radio-opt"><input type="radio" name="attend" value="maybe">Пока не уверен</label>
+            <label class="radio-opt"><input type="radio" name="attend" value="no">К сожалению, нет</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Количество гостей (включая вас)</label>
+          <select name="guests">
+            <option>1 — только я</option>
+            <option>2 человека</option>
+            <option>3 человека</option>
+            <option>4 человека</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Пожелания / диета / аллергии</label>
+          <textarea name="note" placeholder="Например: вегетарианское меню, без глютена, любимая песня для танцпола..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Отправить RSVP</button>
+      </form>
+      <div class="success-msg" id="success">
+        <h3>✓ Сообщение отправлено</h3>
+        <p>Спасибо! Мы получили ваш ответ и очень ждём встречи. До скорого!</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="fl">ИЛЬЯ <span style="color:var(--neon2)">♡</span> КАТЯ · 27.07.2026</div>
+  <p>Создано с любовью и кодом. #artkatwedding</p>
+</footer>
+
+<script>
+/* ============ PARTICLE FIELD ============ */
+const c=document.getElementById('particles'),x=c.getContext('2d');
+let W,H,ps=[];
+function resize(){W=c.width=innerWidth;H=c.height=innerHeight}
+resize();addEventListener('resize',resize);
+const COLS=['0,240,255','255,46,154','168,85,247'];
+for(let i=0;i<90;i++){
+  ps.push({
+    x:Math.random()*W,y:Math.random()*H,
+    vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,
+    r:Math.random()*1.8+.4,
+    c:COLS[Math.floor(Math.random()*COLS.length)],
+    a:Math.random()*.6+.2
+  });
+}
+const mouse={x:-999,y:-999};
+addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+function draw(){
+  x.clearRect(0,0,W,H);
+  // links
+  for(let i=0;i<ps.length;i++){
+    for(let j=i+1;j<ps.length;j++){
+      const dx=ps[i].x-ps[j].x,dy=ps[i].y-ps[j].y,d=Math.hypot(dx,dy);
+      if(d<120){
+        x.strokeStyle='rgba(0,240,255,'+(1-d/120)*.12+')';
+        x.lineWidth=.6;x.beginPath();x.moveTo(ps[i].x,ps[i].y);x.lineTo(ps[j].x,ps[j].y);x.stroke();
+      }
+    }
+  }
+  // dots
+  ps.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    // mouse attraction
+    const mdx=mouse.x-p.x,mdy=mouse.y-p.y,md=Math.hypot(mdx,mdy);
+    if(md<150){p.x+=mdx*.015;p.y+=mdy*.015}
+    x.fillStyle='rgba('+p.c+','+p.a+')';
+    x.shadowBlur=8;x.shadowColor='rgba('+p.c+',.8)';
+    x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fill();
+  });
+  x.shadowBlur=0;
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ============ COUNTDOWN ============ */
+const TARGET=new Date('2026-09-14T14:00:00').getTime();
+function tick(){
+  let diff=TARGET-Date.now();
+  if(diff<0)diff=0;
+  const d=Math.floor(diff/86400000),
+        h=Math.floor(diff%86400000/3600000),
+        m=Math.floor(diff%3600000/60000),
+        s=Math.floor(diff%60000/1000);
+  document.getElementById('d').textContent=String(d).padStart(2,'0');
+  document.getElementById('h').textContent=String(h).padStart(2,'0');
+  document.getElementById('m').textContent=String(m).padStart(2,'0');
+  document.getElementById('s').textContent=String(s).padStart(2,'0');
+}
+tick();setInterval(tick,1000);
+
+/* ============ NAV SCROLL ============ */
+addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',scrollY>40);
+});
+
+/* ============ SCROLL REVEAL ============ */
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+},{threshold:.15});
+document.querySelectorAll('.reveal,.tl-item').forEach(el=>io.observe(el));
+
+/* ============ RADIO STYLING ============ */
+document.querySelectorAll('.radio-opt').forEach(opt=>{
+  opt.addEventListener('click',()=>{
+    document.querySelectorAll('.radio-opt').forEach(o=>o.classList.remove('sel'));
+    opt.classList.add('sel');
+  });
+});
+
+/* ============ RSVP FORM ============ */
+document.getElementById('rsvpForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const form=e.target;
+  // basic validation already handled by required; simulate send
+  const btn=form.querySelector('.submit-btn');
+  btn.textContent='Отправка...';btn.disabled=true;
+  setTimeout(()=>{
+    form.style.display='none';
+    const s=document.getElementById('success');
+    s.classList.add('show');
+    s.scrollIntoView({behavior:'smooth',block:'center'});
+  },900);
+});
+</script>
+</body>
+</html>
